@@ -1,2 +1,58 @@
-# DATA-STRUCTURES
-linkedlist implimentation
+
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+        self.parent = None
+
+    def addChild(self, child):
+        self.children.append(child)
+        child.parent = self
+
+    def get_level(self):
+        level = 0
+        p= self.parent
+        while p:
+            level += 1
+            p = p.parent
+
+        return level
+
+    def Traversal(self):
+        spaces="   "*self.get_level()
+        prefix= spaces + "|-->" if self.parent else ""
+        print(prefix + self.data)
+        for child in self.children:
+            child.Traversal()
+
+
+if __name__=='__main__':
+
+    def build_family_tree():
+        root = TreeNode("dada ji")
+
+        father = TreeNode("papa")
+        uncle1 = TreeNode("uncle 1")
+        uncle2 = TreeNode("uncle 2")
+
+        root.addChild(father)
+        root.addChild(uncle1)
+        root.addChild(uncle2)
+
+        father.addChild(TreeNode("sibling 1"))
+        father.addChild(TreeNode("sibling 2"))
+        father.addChild(TreeNode("myself"))
+
+        uncle1.addChild(TreeNode("cousin 1"))
+
+        uncle2.addChild(TreeNode("cousin sis 1"))
+        uncle2.addChild(TreeNode("cousin sis 2"))
+        uncle2.addChild(TreeNode("cousin brother 3"))
+
+        return root
+
+    root = build_family_tree()
+
+    root.Traversal()
+    pass
+
