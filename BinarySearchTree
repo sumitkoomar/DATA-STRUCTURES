@@ -1,0 +1,99 @@
+class BinarySearchTree():
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def add_child(self,data):
+        if self.data == data:
+            return
+        if data < self.data:
+            if self.left:
+                self.left.add_child(data)
+            else:
+                self.left = BinarySearchTree(data)
+        else:
+            if self.right:
+                self.right.add_child(data)
+            else:
+                self.right = BinarySearchTree(data)
+
+    def findmin(self):
+        if self.left:
+            self.left.findmin()
+        else:
+            return self.data
+
+    def findmax(self):
+        if self.right:
+            self.right.findmax()
+        else:
+            return self.data
+
+    def delete(self,value):
+        if value < self.data:
+            if self.left:
+                self.left.delete(value)
+
+        elif value > self.right:
+            if self.right:
+                self.right.delete(value)
+
+        else:
+            if self.left is None and self.right is None:
+                return None
+            if self.left is None:
+                return self.right
+            if self.right is None:
+                return self.left
+
+            minval = self.right.findmin()
+            self.data = minval
+            self.right = self.right.delete(minval)
+
+            return self
+
+
+    def In_Order_Traversal(self):
+        elements = []
+        if self.left:
+            elements += self.left.In_Order_Traversal()
+
+        elements.append(self.data)
+
+        if self.right:
+            elements += self.right.In_Order_Traversal()
+
+        return elements
+
+    def search(self,val):
+        if val == self.data:
+            return True
+
+        if val < self.data:
+            if self.left:
+                return self.left.search(val)
+            else:
+                return False
+
+        if val > self.data:
+            if self.right:
+                return self.right.search(val)
+            else:
+                return False
+
+
+def Built_Tree(list):
+    root = BinarySearchTree(list[0])
+
+    for i in range(1,len(list)):
+        root.add_child(list[i])
+
+    return root
+
+
+if __name__ == '__main__':
+    num=[5,7,4,9,17,3,6,13,8]
+    numtree = Built_Tree(num)
+    print(numtree.search(6))
+
